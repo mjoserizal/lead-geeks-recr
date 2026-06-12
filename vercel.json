@@ -34,6 +34,8 @@
         "VERCEL": "1",
         "APP_ENV": "production",
         "APP_DEBUG": "true",
+        "APP_URL": "https://lead-geeks.vercel.app",
+        "ASSET_URL": "https://lead-geeks.vercel.app",
         "CACHE_STORE": "array",
         "SESSION_DRIVER": "array",
         "LOG_CHANNEL": "stderr",
