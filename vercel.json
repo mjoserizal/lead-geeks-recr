@@ -1,7 +1,8 @@
 {
     "version": 2,
     "framework": null,
-    "buildCommand": "npm install && npm run build",
+    "installCommand": "composer install --no-dev --optimize-autoloader && npm install",
+    "buildCommand": "npm run build && cp .env.example .env && php artisan key:generate",
     "outputDirectory": "public",
     "functions": {
         "api/index.php": {
@@ -10,12 +11,12 @@
     },
     "routes": [
         {
-            "src": "/(css|js|images|fonts|favicon.ico|robots.txt)(.*)",
-            "dest": "/public/$1$2"
-        },
-        {
             "src": "/build/(.*)",
             "dest": "/public/build/$1"
+        },
+        {
+            "src": "/(css|js|images|fonts|favicon.ico|robots.txt)(.*)",
+            "dest": "/public/$1$2"
         },
         {
             "src": "/(.*)",
@@ -25,10 +26,12 @@
     "env": {
         "VERCEL": "1",
         "APP_ENV": "production",
-        "APP_DEBUG": "false",
+        "APP_DEBUG": "true",
         "CACHE_STORE": "array",
         "SESSION_DRIVER": "array",
         "LOG_CHANNEL": "stderr",
-        "VIEW_COMPILED_PATH": "/tmp/views"
+        "VIEW_COMPILED_PATH": "/tmp/storage/framework/views",
+        "DB_CONNECTION": "sqlite",
+        "DB_DATABASE": "/tmp/database.sqlite"
     }
 }
