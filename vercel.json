@@ -30,8 +30,12 @@
         "SESSION_DRIVER": "array",
         "LOG_CHANNEL": "stderr",
         "VIEW_COMPILED_PATH": "/tmp/storage/framework/views",
-        "DB_CONNECTION": "turso",
-        "TURSO_DATABASE_URL": "libsql://lead-geeks-db-freakyjoo.aws-ap-northeast-1.turso.io",
-        "TURSO_AUTH_TOKEN": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3ODEyMzM2NTksImlkIjoiMDE5ZWI5YzctNGIwMS03NmIxLTg3NGYtZTA4NjY4N2NiN2M1IiwicmlkIjoiZGM2Nzk3OTItMDRmOC00YzM1LThjYTctOTM1NzkzN2IwOTlhIn0.TUtT4S2qy_gcgMgfmWb_0EVW3fJWTsKlpcK80u8z5Gj43PmKK5I1HiqKlpsiYuVuXGbk786BVHeP_RXE2oNVAw"
+        "DB_CONNECTION": "pgsql",
+        "DB_HOST": "ep-withered-pine-ao0slyub.c-2.ap-southeast-1.aws.neon.tech",
+        "DB_PORT": "5432",
+        "DB_DATABASE": "neondb",
+        "DB_USERNAME": "neondb_owner",
+        "DB_PASSWORD": "npg_oJMBRHf7Djy6",
+        "DB_SSLMODE": "require"
     }
 }
