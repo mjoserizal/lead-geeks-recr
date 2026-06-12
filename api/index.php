@@ -5,6 +5,7 @@ $directories = [
     '/tmp/storage',
     '/tmp/storage/framework',
     '/tmp/storage/framework/cache',
+    '/tmp/storage/framework/cache/data',
     '/tmp/storage/framework/sessions',
     '/tmp/storage/framework/views',
     '/tmp/storage/logs',
@@ -17,5 +18,21 @@ foreach ($directories as $dir) {
     }
 }
 
-// Forward Vercel request to Laravel public/index.php
-require __DIR__ . '/../public/index.php';
+// Set environment variables before Laravel boots
+$_ENV['VERCEL'] = '1';
+$_SERVER['VERCEL'] = '1';
+
+// Catch any early errors
+try {
+    require __DIR__ . '/../public/index.php';
+} catch (Throwable $e) {
+    http_response_code(500);
+    header('Content-Type: application/json');
+    echo json_encode([
+        'error' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+        'trace' => $e->getTraceAsString()
+    ]);
+    exit;
+}
