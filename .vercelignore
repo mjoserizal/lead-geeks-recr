@@ -1,0 +1,15 @@
+/vendor
+/node_modules
+/.git
+/.github
+/tests
+/storage/logs/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+*.md
+phpunit.xml
+.env
+.env.local
+.editorconfig
+.styleci.yml
