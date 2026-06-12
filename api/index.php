@@ -4,27 +4,10 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
-// Create necessary directories in /tmp for Vercel serverless
-$directories = [
-    '/tmp/storage',
-    '/tmp/storage/framework',
-    '/tmp/storage/framework/cache',
-    '/tmp/storage/framework/cache/data',
-    '/tmp/storage/framework/sessions',
-    '/tmp/storage/framework/views',
-    '/tmp/storage/logs',
-    '/tmp/views',
-];
-
-foreach ($directories as $dir) {
-    if (!is_dir($dir)) {
-        mkdir($dir, 0755, true);
-    }
-}
-
-// Set environment variables before Laravel boots
+// Set environment variables before anything else
 $_ENV['VERCEL'] = '1';
 $_SERVER['VERCEL'] = '1';
+putenv('VERCEL=1');
 
 // Custom error handler to catch everything
 set_error_handler(function($severity, $message, $file, $line) {

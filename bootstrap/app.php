@@ -5,7 +5,28 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 
-// Vercel serverless: use /tmp for writable paths
+// Check if running on Vercel
+$isVercel = isset($_ENV['VERCEL']) || isset($_SERVER['VERCEL']) || getenv('VERCEL');
+
+// Vercel serverless: create /tmp directories and configure paths
+if ($isVercel) {
+    $directories = [
+        '/tmp/storage',
+        '/tmp/storage/framework',
+        '/tmp/storage/framework/cache',
+        '/tmp/storage/framework/cache/data',
+        '/tmp/storage/framework/sessions',
+        '/tmp/storage/framework/views',
+        '/tmp/storage/logs',
+    ];
+    
+    foreach ($directories as $dir) {
+        if (!is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
+    }
+}
+
 $app = Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
@@ -22,7 +43,7 @@ $app = Application::configure(basePath: dirname(__DIR__))
     })->create();
 
 // Vercel serverless: override storage path to /tmp
-if (isset($_ENV['VERCEL']) || isset($_SERVER['VERCEL'])) {
+if ($isVercel) {
     $app->useStoragePath('/tmp/storage');
 }
 
