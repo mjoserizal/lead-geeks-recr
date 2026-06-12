@@ -30,7 +30,8 @@
         "SESSION_DRIVER": "array",
         "LOG_CHANNEL": "stderr",
         "VIEW_COMPILED_PATH": "/tmp/storage/framework/views",
-        "DB_CONNECTION": "sqlite",
-        "DB_DATABASE": "/tmp/database.sqlite"
+        "DB_CONNECTION": "turso",
+        "TURSO_DATABASE_URL": "libsql://lead-geeks-db-freakyjoo.aws-ap-northeast-1.turso.io",
+        "TURSO_AUTH_TOKEN": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3ODEyMzM2NTksImlkIjoiMDE5ZWI5YzctNGIwMS03NmIxLTg3NGYtZTA4NjY4N2NiN2M1IiwicmlkIjoiZGM2Nzk3OTItMDRmOC00YzM1LThjYTctOTM1NzkzN2IwOTlhIn0.TUtT4S2qy_gcgMgfmWb_0EVW3fJWTsKlpcK80u8z5Gj43PmKK5I1HiqKlpsiYuVuXGbk786BVHeP_RXE2oNVAw"
     }
 }
