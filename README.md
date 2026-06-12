@@ -1,108 +1,280 @@
-# Internal IT Ticket Dashboard
+# LeadGeeks IT Support Portal
 
-A modern, responsive, and high-fidelity internal web portal built for tracking and managing IT support tickets. This project was developed as a solution for the **Practical Technical Assessment (Case Option 1)**.
+Sistem manajemen tiket IT Support internal yang dibangun dengan Laravel 13. Aplikasi ini memungkinkan tim IT untuk melacak, mengelola, dan menyelesaikan tiket support dengan efisien.
 
-It uses a dark glassmorphism aesthetic with zero heavy CSS libraries, implementing all visual components and layouts with pure custom Vanilla CSS for maximum performance and flexibility.
+## 🌐 Live Demo
 
----
+**Production URL:** https://lead-geeks.vercel.app
 
-## 🚀 Project Overview
+## 📋 Fitur
 
-The **Internal IT Ticket Dashboard** allows IT support staff to view cumulative ticket metrics, filter and search through support cases, manage individual ticket lifecycles (Create, Read, Update, Delete), and log progression notes/comments for specific issues.
+- **Dashboard** - Ringkasan statistik tiket (total, open, in progress, high priority)
+- **Manajemen Tiket** - CRUD lengkap untuk tiket support
+- **Komentar/Notes** - Tambahkan catatan pada tiket
+- **Filter & Search** - Cari berdasarkan judul, assignee, atau deskripsi
+- **Filter by Category** - Hardware, Software, Network, Security, Other
+- **Filter by Priority** - Low, Medium, High
+- **Filter by Status** - Open, In Progress, Resolved, Closed
+- **Sorting** - Sort berdasarkan tanggal, judul, kategori, priority, status
+- **Pagination** - 8 tiket per halaman
 
----
+## 🛠 Tech Stack
 
-## 🛠️ Technologies Used
+| Layer | Teknologi |
+|-------|-----------|
+| Framework | Laravel 13 |
+| PHP Version | 8.3+ |
+| Database | PostgreSQL (Neon) |
+| Frontend | Blade Templates, Vanilla CSS |
+| Icons | Lucide Icons |
+| Fonts | Inter, Plus Jakarta Sans |
+| Hosting | Vercel (Serverless PHP) |
 
-- **Backend Framework**: Laravel 11.x (PHP 8.3+)
-- **Database**: SQLite (configured out of the box, zero external engine configuration required)
-- **Frontend Architecture**: Blade Templating Engine + Vanilla JavaScript
-- **Styling**: Custom Vanilla CSS (incorporating modern CSS variables, responsive grid/flex layouts, glassmorphism templates, and status-specific color branding)
-- **Testing**: PHPUnit / Laravel Feature Testing
+## 📁 Struktur Project
 
----
-
-## ✨ Features Implemented
-
-### 1. Ticket Management (CRUD)
-- **View Ticket List**: Displayed in a responsive, modern tabular format with clear category, status, priority, and date markers.
-- **Add Ticket**: Handled via a user-friendly modal overlay directly on the dashboard.
-- **Edit Ticket**: Full-page editor pre-populated with existing metadata.
-- **Delete Ticket**: Secure deletion with deletion confirmation.
-- **View Ticket Details**: Sleek layout presenting complete ticket logs.
-
-### 2. Live Statistics Counters
-The top section of the dashboard calculates and displays live counts for:
-- **Total Tickets** (cumulative)
-- **Open Tickets** (unaddressed issues)
-- **In Progress Tickets** (ongoing resolutions)
-- **High Priority Tickets** (urgent cases)
-
-### 3. Advanced Filtering, Search & Sorting (Bonus Features)
-- **Full-Text Search**: Dynamically searches across ticket titles, descriptions, and assigned persons.
-- **Category Filter**: Filter records by Hardware, Software, Network, Security, or Other.
-- **Priority Filter**: Filter by Low, Medium, or High.
-- **Status Filter**: Filter by Open, In Progress, Resolved, or Closed.
-- **Custom Sort**: Sort tickets by Created Date, Title, Category, Priority, or Status in either Descending or Ascending order.
-- **Logical Sorting**: Statuses and Priorities sort logically (e.g., High -> Medium -> Low rather than alphabetically).
-
-### 4. Status Color Indicators (Bonus Features)
-- Cohesive color-coded badges for ticket statuses and priorities:
-  - **Open**: Electric Blue / Cyan
-  - **In Progress**: Amber / Orange
-  - **Resolved**: Emerald / Green
-  - **Closed**: Slate / Gray
-  - **High Priority**: Red warning dot
-
-### 5. Ticket Notes/Comments Log (Bonus Features)
-- Support staff can add detailed timeline notes and comments to any ticket.
-- Notes are linked to the parent ticket, displayed in a chronological timeline feed, and deleted automatically if the ticket is removed.
-
----
-
-## 📦 Setup & Installation Instructions
-
-To set up and run this application locally, ensure you have **PHP 8.2+** and **Composer** installed.
-
-### 1. Clone & Navigate
-If you have received this project as a ZIP or cloned repository:
-```bash
-cd lead-geeks-recr
+```
+lead-geeks-recr/
+├── app/
+│   ├── Http/Controllers/
+│   │   ├── TicketController.php    # CRUD tiket + filtering
+│   │   └── CommentController.php   # Komentar tiket
+│   ├── Models/
+│   │   ├── Ticket.php              # Model tiket
+│   │   ├── Comment.php             # Model komentar
+│   │   └── User.php
+│   └── Providers/
+│       └── AppServiceProvider.php  # Force HTTPS
+├── api/
+│   └── index.php                   # Entry point Vercel
+├── bootstrap/
+│   └── app.php                     # Bootstrap + Vercel config
+├── config/
+│   └── database.php                # Database connections
+├── database/
+│   ├── migrations/
+│   │   ├── create_tickets_table.php
+│   │   └── create_comments_table.php
+│   └── seeders/
+│       └── TicketSeeder.php
+├── public/
+│   └── css/
+│       └── app.css                 # Stylesheet utama
+├── resources/views/
+│   ├── layouts/
+│   │   └── layout.blade.php        # Layout utama
+│   └── tickets/
+│       ├── index.blade.php         # Dashboard + list tiket
+│       ├── show.blade.php          # Detail tiket
+│       └── edit.blade.php          # Edit tiket
+├── routes/
+│   └── web.php                     # Routes
+├── vercel.json                     # Konfigurasi Vercel
+└── .env.example                    # Environment template
 ```
 
-### 2. Install Dependencies
-Install the required PHP dependencies using Composer:
-```bash
-composer install
-```
+## 🗄 Database Schema
 
-### 3. Set Up Environment File
-Create the local environment file (if not already copied):
-```bash
-copy .env.example .env
-```
-*(By default, the `.env` is configured to use SQLite with `DB_CONNECTION=sqlite`.)*
+### Tabel `tickets`
 
-### 4. Database Setup & Seeding
-Create the SQLite database file and run the migrations alongside the sample seeder:
-```bash
-# Create the database file (if it does not exist)
-type NUL > database/database.sqlite
+| Column | Type | Description |
+|--------|------|-------------|
+| id | bigint | Primary key |
+| title | varchar(255) | Judul tiket |
+| category | varchar(255) | Kategori (Hardware, Software, Network, Security, Other) |
+| priority | enum | Low, Medium, High |
+| status | enum | Open, In Progress, Resolved, Closed |
+| assigned_to | varchar(255) | Nama assignee (nullable) |
+| description | text | Deskripsi tiket (nullable) |
+| created_at | timestamp | Waktu dibuat |
+| updated_at | timestamp | Waktu diupdate |
 
-# Run migrations and seed sample tickets
-php artisan migrate --seed
-```
-*The database will be populated with 8 realistic IT tickets complete with assigned staff, description logs, and comments right out of the box.*
+### Tabel `comments`
 
-### 5. Run Local Server
-Launch Laravel's local development server:
-```bash
-php artisan serve
-```
-By default, the application will be accessible at: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+| Column | Type | Description |
+|--------|------|-------------|
+| id | bigint | Primary key |
+| ticket_id | bigint | Foreign key ke tickets |
+| author | varchar(255) | Nama penulis komentar |
+| comment | text | Isi komentar |
+| created_at | timestamp | Waktu dibuat |
+| updated_at | timestamp | Waktu diupdate |
 
-### 6. Run Tests
-To execute the automated test suites and verify all CRUD operations and calculations:
-```bash
-php artisan test
-```
+## 🔗 API Routes
+
+| Method | URI | Action | Description |
+|--------|-----|--------|-------------|
+| GET | `/` | TicketController@index | Dashboard |
+| GET | `/tickets` | TicketController@index | List semua tiket |
+| POST | `/tickets` | TicketController@store | Buat tiket baru |
+| GET | `/tickets/{ticket}` | TicketController@show | Detail tiket |
+| GET | `/tickets/{ticket}/edit` | TicketController@edit | Form edit tiket |
+| PUT | `/tickets/{ticket}` | TicketController@update | Update tiket |
+| DELETE | `/tickets/{ticket}` | TicketController@destroy | Hapus tiket |
+| POST | `/tickets/{ticket}/comments` | CommentController@store | Tambah komentar |
+
+### Query Parameters (GET /tickets)
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| search | string | Cari di title, assigned_to, description |
+| category | string | Filter by kategori |
+| priority | string | Filter by priority (Low, Medium, High) |
+| status | string | Filter by status |
+| sort_by | string | Sort column (created_at, title, category, priority, status) |
+| sort_order | string | asc atau desc |
+
+## 🚀 Deployment ke Vercel
+
+### Prerequisites
+
+- Node.js 18+
+- PHP 8.3+
+- Composer
+- Akun Vercel
+- Database PostgreSQL (Neon recommended)
+
+### Setup Database (Neon)
+
+1. Buat akun di https://neon.tech
+2. Create new project
+3. Copy connection string
+
+### Deploy Steps
+
+1. **Clone repository**
+   ```bash
+   git clone <repository-url>
+   cd lead-geeks-recr
+   ```
+
+2. **Install dependencies**
+   ```bash
+   composer install --no-dev
+   npm install
+   npm run build
+   ```
+
+3. **Setup environment**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+4. **Configure `.env` dengan database Neon**
+   ```env
+   DB_CONNECTION=pgsql
+   DB_HOST=<your-neon-host>
+   DB_PORT=5432
+   DB_DATABASE=neondb
+   DB_USERNAME=<your-username>
+   DB_PASSWORD=<your-password>
+   DB_SSLMODE=require
+   ```
+
+5. **Run migrations**
+   ```bash
+   php artisan migrate --force
+   ```
+
+6. **Clear cache sebelum deploy**
+   ```bash
+   rm -rf bootstrap/cache/*.php
+   php artisan package:discover
+   ```
+
+7. **Deploy ke Vercel**
+   ```bash
+   npm i -g vercel
+   vercel login
+   vercel --prod
+   ```
+
+### Vercel Environment Variables
+
+Set di Vercel Dashboard → Settings → Environment Variables:
+
+| Key | Value |
+|-----|-------|
+| APP_KEY | (hasil dari `php artisan key:generate --show`) |
+| APP_ENV | production |
+| APP_DEBUG | false |
+| APP_URL | https://your-domain.vercel.app |
+| DB_CONNECTION | pgsql |
+| DB_HOST | your-neon-host |
+| DB_PORT | 5432 |
+| DB_DATABASE | neondb |
+| DB_USERNAME | your-username |
+| DB_PASSWORD | your-password |
+| DB_SSLMODE | require |
+
+## 💻 Local Development
+
+1. **Clone dan install**
+   ```bash
+   git clone <repository-url>
+   cd lead-geeks-recr
+   composer install
+   npm install
+   ```
+
+2. **Setup environment**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+3. **Konfigurasi database** (edit `.env`)
+   ```env
+   DB_CONNECTION=sqlite
+   ```
+
+4. **Buat database SQLite**
+   ```bash
+   touch database/database.sqlite
+   ```
+
+5. **Run migrations dan seeder**
+   ```bash
+   php artisan migrate
+   php artisan db:seed --class=TicketSeeder
+   ```
+
+6. **Start development server**
+   ```bash
+   composer run dev
+   ```
+
+7. Buka http://localhost:8000
+
+## 📝 Catatan Penting
+
+### Vercel Serverless Limitations
+
+- **No persistent storage** - File system adalah read-only kecuali `/tmp`
+- **Cold starts** - Function mungkin perlu waktu startup
+- **Execution timeout** - Default 10 detik untuk Hobby plan
+- **Database** - Harus pakai external database (tidak bisa SQLite)
+
+### File Konfigurasi Khusus Vercel
+
+- `api/index.php` - Entry point serverless function
+- `vercel.json` - Routing dan environment config
+- `bootstrap/app.php` - Setup `/tmp` storage untuk Vercel
+
+## 🔧 Troubleshooting
+
+### CSS tidak muncul
+- Pastikan `APP_URL` di-set dengan HTTPS
+- Check `AppServiceProvider` sudah ada `URL::forceScheme('https')`
+
+### Database error
+- Pastikan sudah run migration: `php artisan migrate --force`
+- Check connection string di environment variables
+
+### Class not found error
+- Hapus cache: `rm -rf bootstrap/cache/*.php`
+- Regenerate: `composer install --no-dev && php artisan package:discover`
+
+## 📄 License
+
+MIT License
